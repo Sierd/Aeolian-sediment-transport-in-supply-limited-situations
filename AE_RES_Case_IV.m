@@ -46,7 +46,7 @@ else
     disp('loading wind data from disc')
     %     load wind_sep.mat
     %     load sep_9okt.mat
-    load sep_10oktc.mat
+    load wind.mat
     
 end
 
@@ -121,7 +121,8 @@ for k = 1:length(s)
 end
 
 %% now we plot Figure 8 using the panel package
-figure(121);close;figure(121)
+addpath panel
+figure(8);close;figure(8)
 p = panel();
 
 % lets define 2 rows
@@ -157,7 +158,7 @@ out = [1.5 5 10]*1e-4;
 for i=1:3;
     index = find(abs(s-out(i))<0.0000001);
     
-    figure(121)
+    figure(8)
     p(2,i).select()
     hold all
     
@@ -256,7 +257,7 @@ end
 
 
 %% Here we plot Figure 9
-figure
+figure(9)
 plot(s*L_dom*alpha*total_time/1e2,(mean(u_w(:,end))-V_th1).*lin_coef*3600/1e2,'k','linewidth',2,'DisplayName','$Q=A_{lin}(\overline{u_w}-u_t)$')
 hold all
 

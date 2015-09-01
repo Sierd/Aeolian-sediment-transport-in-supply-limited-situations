@@ -38,18 +38,6 @@ u_w((55/dt+1):90/dt,:)=9;
 source=zeros(total_time/dt,L_dom/dx+1);
 source(:,2:L_dom*alpha/dx)= src*dt*dx;
 
-
-
-% gust_nr = 50
-% gusts = round(rand(gust_nr,1)*100)/100;
-%
-% % gusts = round(rand(gust_nr,1)*gust_nr)/gust_nr/2+0.5;
-%
-%
-% for i = 1:gust_nr
-%     u_w((total_time/gust_nr*(i-1)+1):total_time/gust_nr*i,1:101) = gusts(i);
-% end
-
 % alter wind conditions
 if 0; u_w(1:total_time/2,:)=u_w(1:total_time/2,:)/2; end
 % alter source conditions
@@ -68,9 +56,11 @@ Cu = zeros(total_time/dt,L_dom/dx+1);
 [Ct,Ca,Cu,Ccap_index] = model_core(u_w,U_th,source,dx,dt,total_time,T,VS,z);
 
 % plot_results(Ct,Ca,u_w,source,dt,1)
+
 %% plotting proves to be a bit difficult.
 % Lets try the panel package to improve the plotting.
-figure
+addpath panel
+figure(5)
 p = panel();
 
 % let's start with three columns, both halve
@@ -96,10 +86,6 @@ p(2).margintop = 25;
 p(2,1).marginbottom = 10;
 p(2,2).marginbottom = 10;
 p(2,3).marginbottom = 10;
-% p(2,1).margintop = 10;
-% p(2,2).margintop = 10;
-% p(2,3).margintop = 10;
-
 
 times = [15 30 45 60 75 90];
 
@@ -110,15 +96,6 @@ box on
 vline(times,'k:')
 ylabel('Wind [m/s]')
 set(gca, 'xtick', [])
-
-
-% p(2,2).select()
-% plot(Ct(:,101),'linewidth',2,'Color',[0.4 0.4 0.4])
-% set(gca, 'xtick', [])
-% box on
-% vline([150 300 450 600 750 900],'k:')
-% ylabel('Cc at x = 101 m [kg/m3]')
-
 
 p(2,3).select()
 plot(dt:dt:total_time,u_w(:,101).*Ct(:,101),'Color',[0.4 0.4 0.4],'linewidth',2)
@@ -169,7 +146,5 @@ p(1,2).ylabel('Erodible sediment at the bed (Se) [Kg/m^2]')
 
 p(1).title('Spatial series')
 p(2,2).title('Time series')
-% p.refresh();
 
-% p.export('Case_II_sept.eps', '-w170', '-h150','-oeps');
 

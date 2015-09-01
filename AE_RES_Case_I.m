@@ -1,8 +1,4 @@
-% AE_RES Test Case Ic
-% lets give the whole thing a better physical connection by introducing the
-% proper order of wind speed.
-% T = 1
-% dt = 0.001
+% AE_RES Test Case I
 
 clear
 %%%%%%%%%%%%%%%%%%%%%%%%%%%   INPUT   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -33,7 +29,6 @@ dx=1;dt=T;
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 x_line = 0:dx:L_dom;
@@ -49,7 +44,7 @@ Ca = zeros(total_time/dt,L_dom/dx+1);
 % Cu =(concentration based on wind speed)
 Cu = zeros(total_time/dt,L_dom/dx+1);
 
-figure(23);close;figure(23)
+figure(4);close;figure(4)
 % figure
 hold all
 
@@ -58,15 +53,10 @@ for i=1:length(src)
     
 source(:,2:L_dom*alpha/dx)= src(i)*dt*dx; % wind is in equilibrium with supply if is around 0.01-0.02
 
-    
-% [Ct,u_w,Ca,Cu,Ccap_index] = core_upwind_matrix_T(u_w,U_th,source,dx,dt,total_time,T);
-[Ct,Ca,Cu,Ccap_index] = model_core(u_w,U_th,source,dx,dt,total_time,T,VS,z);
+    [Ct,Ca,Cu,Ccap_index] = model_core(u_w,U_th,source,dx,dt,total_time,T,VS,z);
 
 
 plot(x_line,Ct(end,:)./Cu(end,:),plot_style(i,:),'linewidth',2)
-% plot(x_line,Ct(end,:)./Cu(end,:),'linewidth',2)
-
-%  plot_results(Ct,Ca,u_w,source)
 
 end
 legend(sprintf('\\beta = %3.2f',src(1)*L_dom*alpha/(1.5e-4*(u_const-U_th)^3)),...
@@ -74,9 +64,6 @@ legend(sprintf('\\beta = %3.2f',src(1)*L_dom*alpha/(1.5e-4*(u_const-U_th)^3)),..
     sprintf('\\beta = %3.2f',src(3)*L_dom*alpha/(1.5e-4*(u_const-U_th)^3)),...
      sprintf('\\beta = %3.2f',src(4)*L_dom*alpha/(1.5e-4*(u_const-U_th)^3)))
 
-% legend('supply << demand','supply < demand','supply > demand')
-
-% legend('S_s = 0.01 kg/m^{2}s','S_s = 0.02 kg/m^{2}s','S_s = 0.05 kg/m^{2}s')
 legend('Location','NEO')
 plot([20 20],[0 1.1],'color',[0.8 0.8 0.8])
 xlabel('Distance - x [m]')
